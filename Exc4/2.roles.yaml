@@ -4,7 +4,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name:  apo-admin-clusterrole
-  namespace: default
 rules:
   # Доступ к ресурсам узлов
   - apiGroups: [""]

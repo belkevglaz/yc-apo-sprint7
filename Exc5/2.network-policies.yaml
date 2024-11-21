@@ -1,0 +1,37 @@
+---
+## Разрешаем трафик туда-обратно между user apps
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-backend
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: frontend
+---
+## Разрешаем трафик туда-обратно между admin apps
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-admin-frontend-to-backend
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: admin-backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: admin-frontend
+
