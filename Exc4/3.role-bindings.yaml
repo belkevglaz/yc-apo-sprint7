@@ -1,0 +1,59 @@
+---
+# Байндинг пользователя админа на его роль
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: apo-admin-user-binding
+subjects:
+  - kind: ServiceAccount
+    name: apo-admin-user
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: apo-admin-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+---
+# RoleBinding деплоера на его роль
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: apo-deployer-user-binding
+  namespace: development
+subjects:
+  - kind: ServiceAccount
+    name: apo-deployer-user
+    namespace: development
+roleRef:
+  kind: Role
+  name: apo-deployer-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# RoleBinding разработчика на его роль
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: apo-developer-user-binding
+  namespace: development
+subjects:
+  - kind: ServiceAccount
+    name: apo-developer-user
+    namespace: development
+roleRef:
+  kind: Role
+  name: apo-pod-log-reader-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# RoleBinding инденера по безопасности на его роль
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: apo-security-user-binding
+  namespace: development
+subjects:
+  - kind: ServiceAccount
+    name: apo-security-user
+    namespace: development
+roleRef:
+  kind: Role
+  name: apo-security-editor-role
+  apiGroup: rbac.authorization.k8s.io

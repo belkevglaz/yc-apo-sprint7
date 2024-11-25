@@ -1,0 +1,65 @@
+---
+# Роль для админа. Доступ к нодам и PV
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name:  apo-admin-clusterrole
+rules:
+  # Доступ к ресурсам узлов
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch", "update"]
+  # Доступ к PersistentVolumes
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+---
+# Роль деплоера
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: apo-deployer-role
+  namespace: development
+rules:
+  # Доступ к ресурсам узлов
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  # Доступ к PersistentVolumes
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+# Роль разработчика с доступом к логам подов
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: apo-pod-log-reader-role
+  namespace: development
+rules:
+  # Доступ к ресурсам узлов
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  # Доступ к PersistentVolumes
+  - apiGroups: [""]
+    resources: ["pods/logs"]
+    verbs: ["get", "list", "watch"]
+
+---
+# Роль инженера безопасности
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: apo-security-editor-role
+  namespace: development
+rules:
+  # Доступ к ресурсам узлов
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+  # Доступ к PersistentVolumes
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+
